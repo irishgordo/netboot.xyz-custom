@@ -1,12 +1,26 @@
 #!ipxe
-###
-### netboot.xyz-custom menu
-###
 
-:start
-echo Hello world!
-sleep 10
-goto custom_exit
+goto ${menu} ||
 
-:custom_exit
+:harvester_menu
+menu Harvester Installers - Current Arch [ ${arch} ]
+item --gap Harvester Versions:
+item harvesterv121 ${space} Harvesterv121
+item harvesterv122rc2 ${space} Harvesterv122rc2
+item harvesterv13head ${space} Harvesterv13head
+choose menu || goto harvester_exit
+echo ${cls}
+goto ${menu} ||
+iseq ${sigs_enabled} true && goto verify_sigs || goto change_menu
+
+:verify_sigs
+imgverify ${menu}.ipxe ${sigs}${menu}.ipxe.sig || goto error
+goto change_menu
+
+:change_menu
+chain ${menu}.ipxe || goto error
+goto harvester_menu
+
+:harvester_exit
+clear menu
 exit 0
