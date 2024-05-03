@@ -1,0 +1,54 @@
+#!ipxe
+
+# Harvesterv121
+# https://harvesterhci.io/
+# https://docs.harvesterhci.io/v1.0/install/pxe-boot-install/
+
+goto ${menu} ||
+
+:harvester
+set os HarvesterGeneric
+set os_arch ${arch}
+iseq ${os_arch} x86_64 && set os_arch amd64 ||
+menu ${os} - ${os_arch}
+item --gap DesiredVersion:
+item harvester_desired_version ${space} Set the desired version of Harvester: ${harvester_desired_version}
+item --gap HarvesterGeneric:
+item harvester_url ${space} Begin install of Harvester ${os}
+item --gap Parameters:
+item harvester_config_url ${space} Set config-create or config-join.yaml URL: ${harvester_config_url}
+choose --default ${menu} menu || goto harvester_exit
+echo ${cls}
+goto ${menu} ||
+goto harvester_exit
+
+:harvester_config_url
+echo -n Set config.yaml URL:  && read harvester_config_url
+clear menu
+goto harvester
+
+:harvester_desired_version
+echo -n Set desired Harvester Version:  && read harvester_desired_version
+clear menu
+goto harvester
+
+:harvester_url
+#set harvester_url ${live_endpoint}/asset-mirror/releases/download/v1.2.1/
+set harvester_url http://192.168.104.237:5000
+goto harvester_boot
+
+:harvester_boot
+imgfetch http://192.168.104.237:5000/1mb
+set install_params harvester.install.automatic=false harvester.install.config_url=${harvester_config_url}
+set boot_params ip=dhcp net.ifnames=1 console=ttyS0 console=tty1 rd.cos.disable root=live:${harvester_url}/${harvester_desired_version}/harvester-${harvester_desired_version}-rootfs-${os_arch}.squashfs rd.noverifyssl
+imgfree
+kernel ${harvester_url}/${harvester_desired_version}/harvester-${harvester_desired_version}-vmlinuz-${os_arch} ${install_params} ${boot_params} initrd=initrd.magic ${cmdline}
+initrd ${harvester_url}/${harvester_desired_version}/harvester-${harvester_desired_version}-initrd-${os_arch}
+echo
+echo MD5sums:
+md5sum harvester-${harvester_desired_version}-vmlinuz-${os_arch} harvester-${harvester_desired_version}-initrd-${os_arch}
+boot
+
+:harvester_exit
+clear menu
+exit 0

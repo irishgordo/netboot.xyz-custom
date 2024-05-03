@@ -5,9 +5,7 @@ goto ${menu} ||
 :harvester_menu
 menu Harvester Installers - Current Arch [ ${arch} ]
 item --gap Harvester Versions:
-item harvesterv121 ${space} Harvesterv121
-item harvesterv122rc2 ${space} Harvesterv122rc2
-item harvesterv13head ${space} Harvesterv13head
+item standardharvester ${space} standardharvester
 choose menu || goto harvester_exit
 echo ${cls}
 goto ${menu} ||
