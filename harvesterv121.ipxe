@@ -31,6 +31,7 @@ set harvester_url http://192.168.104.237/v1.2.1/
 goto harvester_boot
 
 :harvester_boot
+imgfetch http://192.168.104.237/1mb
 set install_params harvester.install.automatic=false harvester.install.config_url=${harvester_config_url}
 set boot_params ip=dhcp net.ifnames=1 console=ttyS0 console=tty1 rd.cos.disable root=live:${harvester_url}/harvester-rootfs-${os_arch}.squashfs rd.noverifyssl
 imgfree
