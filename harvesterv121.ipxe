@@ -26,7 +26,8 @@ clear menu
 goto harvester
 
 :harvester_url
-set harvester_url http://192.168.104.237:5000/v1.2.1/
+set harvester_url https://releases.rancher.com/harvester/v1.2.1/
+#set harvester_url http://192.168.104.237:5000/v1.2.1/
 goto harvester_boot
 
 :harvester_boot
