@@ -26,8 +26,8 @@ clear menu
 goto harvester
 
 :harvester_url
-set harvester_url ${live_endpoint}/asset-mirror/releases/download/v1.2.1/
-#set harvester_url http://192.168.104.237/v1.2.1
+#set harvester_url ${live_endpoint}/asset-mirror/releases/download/v1.2.1/
+set harvester_url http://192.168.104.237/v1.2.1/
 goto harvester_boot
 
 :harvester_boot
