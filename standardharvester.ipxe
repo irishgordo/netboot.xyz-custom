@@ -40,7 +40,7 @@ goto harvester_boot
 :harvester_boot
 imgfetch http://192.168.104.237:5000/1mb
 #harvester.install.config_url=${harvester_config_url}
-set install_params harvester.install.with_net_images=true harvester.install.automatic=false harvester.install.wipe_disks=true
+set install_params harvester.install.automatic=false harvester.install.wipe_disks=true harvester.install.iso_url=${harvester_url}/${harvester_desired_version}/harvester-${harvester_desired_version}-${os_arch}.iso
 set boot_params ip=dhcp net.ifnames=1 console=ttyS0 console=tty1 rd.cos.disable root=live:${harvester_url}/${harvester_desired_version}/harvester-${harvester_desired_version}-rootfs-${os_arch}.squashfs rd.noverifyssl
 imgfree
 #initrd=initrd.magic ${cmdline}
